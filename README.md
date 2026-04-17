@@ -15,7 +15,7 @@ You play as a spy trapped in an unstable simulation. Each tile you step on trigg
 
 ## Controls
 * Arrow keys: movement
-* Space: jumo
+* Space: jump
 
 ## Tile Mechanics
 * Gravity inversion
