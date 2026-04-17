@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class EffectManager : MonoBehaviour
@@ -11,6 +11,9 @@ public class EffectManager : MonoBehaviour
     public GameTimer gameTimer;
     public float goodtimer, badtimer;
     public PlayerController playerController;
+    public UIEffects uiEffects;
+    public CameraShake cameraShake;
+    public GlitchEffect glitchEffect;
 
     public Transform exitDoor;
     public Transform[] exitPositions;
@@ -23,6 +26,23 @@ public class EffectManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        ResetState();
+    }
+
+    void ResetState()
+    {
+        exitRelocated = false;
+        gravityFlipped = false;
+        Physics.gravity = new Vector3(0, -9.81f, 0);
+
+        if (cameraHolder != null)
+            cameraHolder.localRotation = Quaternion.Euler(0, 0, 0);
+
+        if (gameTimer != null)
+            gameTimer.timeMultiplier = 1f;
+
+        if (playerController != null)
+            playerController.currentSpeed = playerController.speed; // ← use 'speed' not 'moveSpeed'
     }
 
     public void TriggerEffect(TileEffect.EffectType type, Transform tile)
@@ -53,6 +73,10 @@ public class EffectManager : MonoBehaviour
     {
         int index = Random.Range(0, teleportPoints.Length);
         player.position = teleportPoints[index].position;
+
+        cameraShake.Shake(2f, 0.3f); // duration, intensity
+        uiEffects.ShowEffect("DISPLACED!", Color.white);
+        glitchEffect.TriggerGlitch(0.2f);
     }
 
     IEnumerator GravityInvert()
@@ -67,7 +91,8 @@ public class EffectManager : MonoBehaviour
         // Flip camera
         cameraHolder.localRotation = Quaternion.Euler(0, 0, 180);
 
-        Debug.Log("Gravity Inverted!");
+        uiEffects.ShowEffect("GRAVITY INVERTED!", Color.red);
+        glitchEffect.TriggerGlitch(0.3f);
 
         yield return new WaitForSeconds(gravityfliptimer);
 
@@ -82,7 +107,7 @@ public class EffectManager : MonoBehaviour
 
     IEnumerator TimeWarp()
     {
-        Debug.Log("Time Warping!");
+        uiEffects.ShowEffect("TIME DISTORTED!", Color.yellow);
 
         // Random: speed up OR slow down
         float random = Random.value;
@@ -99,7 +124,7 @@ public class EffectManager : MonoBehaviour
 
     IEnumerator SlowField()
     {
-        Debug.Log("Movement Disrupted!");
+        uiEffects.ShowEffect("MOVEMENT DISRUPTED!", Color.cyan);
 
         float originalSpeed = playerController.currentSpeed;
 
@@ -114,8 +139,8 @@ public class EffectManager : MonoBehaviour
     {
         if (!exitRelocated)
         {
-            Debug.Log("Signal Lost... Relocating Exit");
-
+            uiEffects.ShowEffect("SIGNAL LOST... EXIT RELOCATED", Color.magenta);
+            glitchEffect.TriggerGlitch(0.5f);
             int index = Random.Range(0, exitPositions.Length);
             exitDoor.position = exitPositions[index].position;
 
@@ -123,8 +148,9 @@ public class EffectManager : MonoBehaviour
         }
         else
         {
+            FindFirstObjectByType<UIScreenManager>().ShowWin();
             Debug.Log("Mission Complete!");
-            Time.timeScale = 0f;
+            //Time.timeScale = 0f;
         }
     }
 }
