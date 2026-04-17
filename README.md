@@ -1,4 +1,4 @@
-# Operation-Paradox-Tiles
+# Operation: Paradox Tiles
 
 ## Overview
 _Operation: Paradox Tiles_ is a single-player first-person puzzle platformer set inside a malfunctioning simulation chamber. The player must navigate a grid of reactive tiles, each altering physics, and reach the exit before the time runs out.
