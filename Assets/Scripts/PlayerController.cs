@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 6f;
+    [HideInInspector] public float currentSpeed;
     public float jumpForce = 5f;
     public Transform cameraTransform;
 
@@ -12,6 +13,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        currentSpeed = speed;
     }
 
     void Update()
@@ -28,7 +30,7 @@ public class PlayerController : MonoBehaviour
         Vector3 move = cameraTransform.forward * v + cameraTransform.right * h;
         move.y = 0;
 
-        rb.linearVelocity = new Vector3(move.x * speed, rb.linearVelocity.y, move.z * speed);
+        rb.linearVelocity = new Vector3(move.x * currentSpeed, rb.linearVelocity.y, move.z * currentSpeed);
     }
 
     void Jump()
