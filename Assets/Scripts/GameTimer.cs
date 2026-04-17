@@ -27,6 +27,7 @@ public class GameTimer : MonoBehaviour
         {
             gameOver = true;       // ← set BEFORE calling ShowLose
             Debug.Log("Game Over");
+            AudioManager.Instance.PlaySound(AudioManager.Instance.loseSound);
             FindFirstObjectByType<UIScreenManager>().ShowLose();
         }
     }

@@ -37,7 +37,7 @@ public class UIScreenManager : MonoBehaviour
     public void StartGame()
     {
         startScreen.SetActive(false);
-        Debug.Log("Start game!");
+        AudioManager.Instance.PlaySound(AudioManager.Instance.startSound);
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

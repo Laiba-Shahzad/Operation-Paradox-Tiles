@@ -77,6 +77,8 @@ public class EffectManager : MonoBehaviour
         cameraShake.Shake(2f, 0.3f); // duration, intensity
         uiEffects.ShowEffect("DISPLACED!", Color.white);
         glitchEffect.TriggerGlitch(0.2f);
+
+        AudioManager.Instance.PlaySound(AudioManager.Instance.teleportSound);
     }
 
     IEnumerator GravityInvert()
@@ -93,6 +95,7 @@ public class EffectManager : MonoBehaviour
 
         uiEffects.ShowEffect("GRAVITY INVERTED!", Color.red);
         glitchEffect.TriggerGlitch(0.3f);
+        AudioManager.Instance.PlaySound(AudioManager.Instance.gravitySound);
 
         yield return new WaitForSeconds(gravityfliptimer);
 
@@ -108,7 +111,7 @@ public class EffectManager : MonoBehaviour
     IEnumerator TimeWarp()
     {
         uiEffects.ShowEffect("TIME DISTORTED!", Color.yellow);
-
+        AudioManager.Instance.PlaySound(AudioManager.Instance.timeWarpSound);
         // Random: speed up OR slow down
         float random = Random.value;
 
@@ -125,7 +128,7 @@ public class EffectManager : MonoBehaviour
     IEnumerator SlowField()
     {
         uiEffects.ShowEffect("MOVEMENT DISRUPTED!", Color.cyan);
-
+        AudioManager.Instance.PlaySound(AudioManager.Instance.slowSound);
         float originalSpeed = playerController.currentSpeed;
 
         playerController.currentSpeed *= 0.3f; // slow down
@@ -140,6 +143,7 @@ public class EffectManager : MonoBehaviour
         if (!exitRelocated)
         {
             uiEffects.ShowEffect("SIGNAL LOST... EXIT RELOCATED", Color.magenta);
+            AudioManager.Instance.PlaySound(AudioManager.Instance.glitchSound);
             glitchEffect.TriggerGlitch(0.5f);
             int index = Random.Range(0, exitPositions.Length);
             exitDoor.position = exitPositions[index].position;
@@ -149,6 +153,7 @@ public class EffectManager : MonoBehaviour
         else
         {
             FindFirstObjectByType<UIScreenManager>().ShowWin();
+            AudioManager.Instance.PlaySound(AudioManager.Instance.winSound);
             Debug.Log("Mission Complete!");
             //Time.timeScale = 0f;
         }
