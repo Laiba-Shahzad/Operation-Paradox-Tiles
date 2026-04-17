@@ -32,11 +32,7 @@ Reach the exit door before the timer reaches zero.
 * **Lose**: timer runs out
 
 ## Setup/Installation
-1. Open the project in Unity (version )
-2. Load the main scene
-3. Press play to start
-
-## Folder Structure
+Download the exe file and you can start playing
 
 ## Current Status
 Prototype/Early development
